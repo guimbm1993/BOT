@@ -59,15 +59,15 @@ public class Chat {
 	 */
 	public static String getAnswer(Message message) {
 			String answer = "";
-			switch (message.getStage()) {
+			switch (message.getState()) {
 			case 0:
-				answer = "Olá, sou o VillaniBot e em minha base de conhecimentos há informações sobre o coronavírus, as leis de "
+				answer = "Olá, sou o BotTelegram e em minha base de conhecimentos há informações sobre o coronavírus, as leis de "
 						+ "trânsito e o clima.";
-				message.goForwardStage();
+				message.goForwardState();
 				
 			case 1:
 				answer += " Sobre quais desses assuntos gostaria de conversar?";
-				message.goForwardStage();
+				message.goForwardState();
 				break;
 			case 2:
 				Match m = Helper.getMatch(message.getValue(), bases);
@@ -78,11 +78,11 @@ public class Chat {
 					try {
 						loadFaq(new File(bases.get(m.getValue())));
 						answer = "Show! Vamos lá. O que quer saber a respeito de " + m.getValue() + "?";
-						message.goForwardStage();
+						message.goForwardState();
 					} catch (Exception e) {
 						answer = "Ops! Tive um problema para carregar a base sobre esse assunto :( \nPodemos falar sobre "
 								+ "outra coisa?";
-						message.setStage(1);
+						message.setState(1);
 					}
 					
 				}
@@ -90,20 +90,20 @@ public class Chat {
 			case 3:
 				answer = getFaq(message.getValue());
 				answer += "\nGostaria de fazer outra pergunta ou mudar de assunto?";
-				message.goForwardStage();
+				message.goForwardState();
 				break;
 			case 4:
 				if(message.getValue().equalsIgnoreCase("não") || message.getValue().equalsIgnoreCase("nao")){
 					answer = "Tudo bem, quando quiser voltar a conversar, só me chamar";
-					message.setStage(0);
+					message.setState(0);
 					return answer;
 				}
 				if (Helper.distance(message.getValue(), "outra pergunta") < Helper.distance(message.getValue(), "mudar de assunto")) {
 					answer = "Opa! Mande sua dúvida então...";
-					message.setStage(3);
+					message.setState(3);
 				} else {
 					answer = "Sobre qual assunto?";
-					message.setStage(2);
+					message.setState(2);
 				}				
 				
 			}

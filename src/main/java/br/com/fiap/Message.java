@@ -11,7 +11,7 @@ public class Message {
 	/**
 	 * Variável que indica o estágio da conversa
 	 */
-	private int stage;
+	private int state;
 
 	/**
 	 * Variável que contém o valor da mensagem
@@ -22,8 +22,8 @@ public class Message {
 	/**
 	 * Método que incrementa +1 ao estágio atual do objeto Message
 	 */
-	public void goForwardStage() {
-		this.stage++;
+	public void goForwardState() {
+		this.state++;
 	}
 
 }
